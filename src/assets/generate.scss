@@ -1,0 +1,26 @@
+/* margin and padding generator */
+$spaceamounts: (0px, 5px, 10px, 15px, 20px, 25px, 30px, 35px, 40px, 45px, 50px, 55px, 60px, 65px, 70px, 75px, 80px, 85px, 90px, 95px, 100px, auto); // Adjust this to include the pixel amounts you need.
+$sides: (top, bottom, left, right, all); // Leave this variable alone
+
+/* EXAMPLE m-t-10px*/
+@each $space in $spaceamounts {
+  @each $side in $sides {
+    @if ($side != all) {
+      .m-#{str-slice($side, 0, 1)}-#{$space} {
+        margin-#{$side}: #{$space};
+      }
+
+      .p-#{str-slice($side, 0, 1)}-#{$space} {
+        padding-#{$side}: #{$space};
+      }
+    } @else {
+      .m-#{$side}-#{$space} {
+        margin: #{$space};
+      }
+
+      .p-#{$side}-#{$space} {
+        padding: #{$space};
+      }
+    }
+  }
+}
