@@ -4,9 +4,17 @@
       <div class="main__container">
         <VSearchbar v-model="query" class="m-b-15px"/>
         <transition name="content" mode="out-in">
-          <div v-if="weather" key="weather">
-            weather!
-          </div>
+          <VWeather v-if="weather" key="weather">
+            <template #place>
+              {{weather.name}}
+            </template>
+            <template #desc>
+              {{weather.weather[0].description}}
+            </template>
+            <template #temp>
+              {{weather.main.temp}}
+            </template>
+          </VWeather>
           <VLoader v-else-if="loading" key="load"/>
           <VError v-else-if="hasError" key="error">
             {{errorText}}
@@ -21,11 +29,17 @@
 import VSearchbar from '@/components/VSearchbar.vue';
 import VError from '@/components/VError.vue';
 import VLoader from '@/components/VLoader.vue';
+import VWeather from '@/components/VWeather.vue';
 
 import currentWeather from '@/api/current-weather';
 
 export default {
-  components: { VSearchbar, VError, VLoader },
+  components: {
+    VSearchbar,
+    VError,
+    VLoader,
+    VWeather,
+  },
   data() {
     return {
       query: '',
