@@ -1,4 +1,5 @@
 import axios from 'axios';
+import apiKey from './apiKey';
 
 const http = axios.create({
   baseURL: 'https://api.openweathermap.org/data/2.5/',
@@ -6,7 +7,5 @@ const http = axios.create({
     accept: 'application/json',
   },
 });
-
-const apiKey = '0a11bbc5faa014ec1997dbed57876d0a';
 
 export { http, apiKey };
