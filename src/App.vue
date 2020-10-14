@@ -121,6 +121,7 @@ export default {
 
 body {
   margin: 0;
+  overflow: hidden;
 }
 
 .main {
@@ -131,6 +132,8 @@ body {
     display: flex;
     flex-direction: column;
     align-items: stretch;
+    height: 100%;
+    overflow: auto !important;
   }
 
   margin: 0 auto;
@@ -193,5 +196,9 @@ body {
 ::-webkit-scrollbar-thumb {
   background: rgba($color: #000000, $alpha: 0.4);
   border-radius: 10px;
+}
+
+::-webkit-scrollbar-corner {
+  background: rgba($color: #000000, $alpha: 0);
 }
 </style>

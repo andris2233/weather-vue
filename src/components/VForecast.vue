@@ -99,11 +99,14 @@ export default {
     border-radius: 10px;
     padding: 15px;
     color: rgba($color: #000, $alpha: 0.5);
+    height: 100%;
+    overflow: auto !important;
     &-wrapper {
+      flex: 1;
       display: flex;
       flex-direction: column;
-      align-items: stretch;
-      overflow: auto;
+      overflow: auto !important;
+      width: 100%;
       height: 100%;
     }
     &__row {
