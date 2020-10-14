@@ -11,4 +11,10 @@ export default {
     }
     return http.get(`weather?q=${query}&appid=${this.apiKey}&units=metric&lang=ru`);
   },
+  getForecastWeatherByCountry(query) {
+    if (!this.apiKey) {
+      this.notApiKey();
+    }
+    return http.get(`forecast?q=${query}&appid=${this.apiKey}&units=metric&lang=ru`);
+  },
 };

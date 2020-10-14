@@ -11,13 +11,18 @@
           </div>
           <div class="weather__desc m-b-5px">
             <slot name="desc" />
+            <img v-if="icon"
+                 class="weather__desc-img"
+                 :src="descImg"
+                 alt=""
+            >
           </div>
           <div class="weather__temp">
             <slot name="temp" />°C
           </div>
         </div>
         <transition name="image" appear>
-          <img :src="dayImage"
+          <img :src="dayTypes[dayImage]"
               class="weather__image"
               alt=""
           >
@@ -31,12 +36,16 @@
 import moon from '../assets/moon.png';
 import sun from '../assets/sun.png';
 import timezoneDate from '../_helper/timezoneDate';
+import iconLink from '../api/icon-link';
 
 export default {
   props: {
     date: {
       type: Object,
       required: true,
+    },
+    icon: {
+      type: String,
     },
   },
   data() {
@@ -63,7 +72,10 @@ export default {
       const date = timezoneDate(ts * 1000, timezone);
       const sunsetDate = timezoneDate(sunset * 1000, timezone);
       const sunriseDate = timezoneDate(sunrise * 1000, timezone);
-      return date < sunsetDate && date > sunriseDate ? this.dayTypes[0] : this.dayTypes[1];
+      return date < sunsetDate && date > sunriseDate ? 0 : 1;
+    },
+    descImg() {
+      return iconLink(this.icon, '@2x');
     },
   },
 };
@@ -71,7 +83,7 @@ export default {
 
 <style lang="scss" scoped>
   .weather {
-    background: rgba($color: #fff, $alpha: 0.3);
+    background-color: rgba($color: #fff, $alpha: 0.2);
     border-radius: 10px;
     padding: 15px;
     color: rgba($color: #000, $alpha: 0.5);
@@ -100,10 +112,21 @@ export default {
       font-size: 1.2rem;
       font-weight: 600;
     }
+    &__desc {
+      display: flex;
+      align-items: center;
+      &-img {
+        width: 30px;
+        height: 30px;
+      }
+    }
     &__image {
       width: 140px;
       height: 140px;
       opacity: 0.5;
+      @media (max-width: 560px) {
+        display: none;
+      }
     }
   }
 

@@ -1,17 +1,20 @@
 <template>
   <div id="app">
     <form class="main" @submit.prevent="getWeather">
-      <div class="main__container">
-        <VSearchbar v-model="query" class="m-b-15px"/>
-        <transition name="content" mode="out-in">
-          <VWeather v-if="weather"
-                    key="weather"
+      <VSearchbar v-model="query" class="m-b-15px"/>
+      <transition name="content" mode="out-in">
+        <div v-if="weather && forecast"
+              key="weather"
+              class="main-content"
+        >
+          <VWeather class="m-b-15px"
                     :date="{
                       ts: weather.dt,
                       timezone: weather.timezone,
                       sunset: weather.sys.sunset,
                       sunrise: weather.sys.sunrise
                     }"
+                    :icon="weather.weather[0].icon"
           >
             <template #place>
               {{weather.name}}
@@ -23,12 +26,14 @@
               {{weather.main.temp}}
             </template>
           </VWeather>
-          <VLoader v-else-if="loading" key="load"/>
-          <VError v-else-if="hasError" key="error">
-            {{errorText}}
-          </VError>
-        </transition>
-      </div>
+          <VForecast :weather="forecast.list"
+                      :timezone="forecast.city.timezone"/>
+        </div>
+        <VLoader v-else-if="loading" key="load"/>
+        <VError v-else-if="hasError" key="error">
+          {{errorText}}
+        </VError>
+      </transition>
     </form>
   </div>
 </template>
@@ -38,8 +43,9 @@ import VSearchbar from '@/components/VSearchbar.vue';
 import VError from '@/components/VError.vue';
 import VLoader from '@/components/VLoader.vue';
 import VWeather from '@/components/VWeather.vue';
+import VForecast from '@/components/VForecast.vue';
 
-import currentWeather from '@/api/current-weather';
+import weatherApi from '@/api/current-weather';
 
 export default {
   components: {
@@ -47,12 +53,14 @@ export default {
     VError,
     VLoader,
     VWeather,
+    VForecast,
   },
   data() {
     return {
       query: '',
       loading: false,
       weather: null,
+      forecast: null,
       hasError: false,
       statusCode: 200,
       errorLabel: {
@@ -79,13 +87,16 @@ export default {
   },
   methods: {
     async getWeather() {
-      let res;
+      let weather;
+      let forecast;
       this.loading = true;
       this.hasError = false;
       this.statusCode = 200;
       try {
-        res = await currentWeather.getCurrWeatherByCountry(this.query);
-        this.weather = res.data;
+        weather = await weatherApi.getCurrWeatherByCountry(this.query);
+        this.weather = weather.data;
+        forecast = await weatherApi.getForecastWeatherByCountry(this.query);
+        this.forecast = forecast.data;
       } catch (e) {
         if (e.message === 'apiKey') {
           this.statusCode = -1;
@@ -113,33 +124,28 @@ body {
 }
 
 .main {
-  background: linear-gradient(180deg, #0e2555, #1f6ca0, #398eaf);
-  width: 100%;
-  height: 100%;
-  box-sizing: border-box;
-  padding: 30px 0;
-  @media (max-width: 850px) {
-    padding: 30px 40px;
-  }
-  @media (max-width: 405px) {
-    padding: 30px 20px;
-  }
-  &__container {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  &-content {
     display: flex;
     flex-direction: column;
     align-items: stretch;
+  }
 
-    margin: 0 auto;
-    width: 800px;
-    height: 100%;
-    padding: 30px;
+  margin: 0 auto;
+  width: 800px;
+  height: 100%;
+  padding: 30px;
 
-    background-color: rgba(0, 0, 0, .3);
-    border-radius: 20px;
-    @media (max-width: 850px) {
-      width: 100%;
-      margin: 0;
-    }
+  background-color: rgba(0, 0, 0, .3);
+  border-radius: 20px;
+  @media (max-width: 850px) {
+    width: 100%;
+    margin: 0;
+  }
+  @media (max-width: 560px) {
+    padding: 30px 15px;
   }
 }
 
@@ -157,5 +163,35 @@ body {
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   height: 100vh;
+  background: linear-gradient(180deg, #0e2555, #1f6ca0, #398eaf);
+  width: 100%;
+  box-sizing: border-box;
+  padding: 30px 0;
+  @media (max-width: 850px) {
+    padding: 30px 40px;
+  }
+  @media (max-width: 405px) {
+    padding: 30px 20px;
+  }
+  @media (max-width: 360px) {
+    padding: 30px 10px;
+  }
+}
+
+/* width */
+::-webkit-scrollbar {
+  width: 12px;
+  height: 12px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: none;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: rgba($color: #000000, $alpha: 0.4);
+  border-radius: 10px;
 }
 </style>
