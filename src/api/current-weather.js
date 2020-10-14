@@ -1,5 +1,14 @@
 import { http, apiKey } from './http';
 
 export default {
-  getCurrWeatherByCountry: (query) => http.get(`weather?q=${query}&appid=${apiKey}&units=metric&lang=ru`),
+  apiKey,
+  notApiKey() {
+    throw new Error('apiKey');
+  },
+  getCurrWeatherByCountry(query) {
+    if (!this.apiKey) {
+      this.notApiKey();
+    }
+    return http.get(`weather?q=${query}&appid=${this.apiKey}&units=metric&lang=ru`);
+  },
 };

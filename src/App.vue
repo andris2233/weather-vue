@@ -4,7 +4,15 @@
       <div class="main__container">
         <VSearchbar v-model="query" class="m-b-15px"/>
         <transition name="content" mode="out-in">
-          <VWeather v-if="weather" key="weather">
+          <VWeather v-if="weather"
+                    key="weather"
+                    :date="{
+                      ts: weather.dt,
+                      timezone: weather.timezone,
+                      sunset: weather.sys.sunset,
+                      sunrise: weather.sys.sunrise
+                    }"
+          >
             <template #place>
               {{weather.name}}
             </template>
@@ -50,6 +58,8 @@ export default {
       errorLabel: {
         badReq: 'Одно поле ввода, чел... Попробуй че-нибудь другое написать',
         notFound: 'Такого места на планете Земля не существует, проверь правильность написания наименования',
+        apiKey: 'Необходимо указать apiKey',
+        default: 'Сервис в данный момент не доступен',
       },
     };
   },
@@ -58,11 +68,13 @@ export default {
       if (this.statusCode === 400) {
         return this.errorLabel.badReq;
       }
-
       if (this.statusCode === 404) {
         return this.errorLabel.notFound;
       }
-      return '';
+      if (this.statusCode === -1) {
+        return this.errorLabel.apiKey;
+      }
+      return this.errorLabel.default;
     },
   },
   methods: {
@@ -75,7 +87,11 @@ export default {
         res = await currentWeather.getCurrWeatherByCountry(this.query);
         this.weather = res.data;
       } catch (e) {
-        this.statusCode = e.response.status;
+        if (e.message === 'apiKey') {
+          this.statusCode = -1;
+        } else {
+          this.statusCode = e.response.status;
+        }
         this.weather = null;
         this.loading = false;
         this.hasError = true;
