@@ -67,8 +67,16 @@ export default {
           });
         }
       }
-      while (resultList[0].length < 7) {
-        resultList[0].unshift({});
+      if (resultList[0].length > 7) {
+        while (resultList[0].length > 7) {
+          resultList[0].shift({});
+        }
+      } else if (resultList[0].length) {
+        while (resultList[0].length < 7) {
+          resultList[0].unshift({});
+        }
+      } else {
+        resultList.shift();
       }
       while (day.length < 7) {
         day.push({});
