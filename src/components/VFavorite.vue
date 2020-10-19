@@ -61,7 +61,7 @@ export default {
       this.$emit('select-favorite', index);
       setTimeout(() => {
         this.hideSelect();
-      }, 50);
+      }, 100);
     },
   },
 };
