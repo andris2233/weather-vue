@@ -51,7 +51,7 @@ export default {
       required: true,
     },
     isFavorite: {
-      type: Boolean,
+      type: Object,
       required: true,
     },
   },

@@ -117,7 +117,7 @@ export default {
     },
     toFavorite(isFav) {
       const { name } = this.weather;
-      if (isFav) {
+      if (isFav.idx !== -1) {
         this.$store.dispatch('removeFavorite', name);
       } else {
         this.$store.dispatch('setFavorite', name);
@@ -126,7 +126,7 @@ export default {
     prevFavorite() {
       const { name } = this.weather;
       const prev = this.$store.getters.prevFavorite(name);
-      if (prev !== this.query) {
+      if (prev && prev !== this.query) {
         this.query = prev;
         this.getWeather();
       }
@@ -134,7 +134,7 @@ export default {
     nextFavorite() {
       const { name } = this.weather;
       const next = this.$store.getters.nextFavorite(name);
-      if (next !== this.query) {
+      if (next && next !== this.query) {
         this.query = next;
         this.getWeather();
       }
