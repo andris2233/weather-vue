@@ -10,16 +10,24 @@
         keyboard_arrow_right
       </i>
     </div>
-    <transition-group v-if="getAllFavorites.length" name="dots"
-                      tag="div"
-                      class="pages">
+    <div v-if="getAllFavorites.length"
+         class="pages"
+         @click="showSelect = true">
+      <transition name="select" appear>
+        <VFavoritesMenu v-if="showSelect"
+                        v-click-outside="hideSelect"
+                        :options="getAllFavorites"
+                        class="pages-select"
+                        @select="selectFavorite($event)"
+                        @remove-favorite="$emit('remove-favorite', $event)"/>
+      </transition>
       <div v-for="(dot, index) in getAllFavorites"
           :key="dot"
           :class="{'pages__circle-active': index === isFavorite.idx,
                    'm-r-5px': index !== getAllFavorites.length - 1}"
           class="pages__circle">
       </div>
-    </transition-group>
+    </div>
     <i class="material-icons favorite-icon"
        @click="$emit('star-clicked')">
         {{ isFavorite.idx !== -1 ? 'star' : 'star_border' }}
@@ -28,6 +36,7 @@
 </template>
 
 <script>
+import VFavoritesMenu from '@/components/VFavoritesMenu.vue';
 import { mapGetters } from 'vuex';
 
 export default {
@@ -38,8 +47,25 @@ export default {
       required: true,
     },
   },
+  data() {
+    return {
+      showSelect: false,
+    };
+  },
+  components: { VFavoritesMenu },
   computed: {
     ...mapGetters(['getAllFavorites']),
+  },
+  methods: {
+    hideSelect() {
+      this.showSelect = false;
+    },
+    selectFavorite(index) {
+      this.$emit('select-favorite', index);
+      setTimeout(() => {
+        this.hideSelect();
+      }, 50);
+    },
   },
 };
 </script>
@@ -74,6 +100,7 @@ export default {
       transition: .2s;
       padding: 5px;
       border-radius: 3px;
+      cursor: pointer;
       &:hover {
         box-shadow: 0 0 0 2px rgba($color: #fff, $alpha: 0.3);
       }
@@ -87,25 +114,21 @@ export default {
           transform: scale(1.5);
         }
       }
+      &-select {
+        bottom: 40px;
+        left: 50%;
+        transform: translateX(-50%) scale(1);
+      }
     }
   }
 
-  .dots-enter-active,
-  .dots-leave-active {
+  .select-enter-active,
+  .select-leave-active {
     transition: .2s;
   }
 
-  .dots-leave-active {
-    position: absolute;
-  }
-
-  .dots-enter,
-  .dots-leave-to {
+  .select-enter,
+  .select-leave-to {
     opacity: 0;
-    transform: scale(0);
-  }
-
-  .dots-move {
-    transition: 0.2s;
   }
 </style>

@@ -31,7 +31,9 @@
                      :is-favorite="isFavorite(weather.name)"
                      @star-clicked="toFavorite(isFavorite(weather.name))"
                      @prev-favorite="prevFavorite"
-                     @next-favorite="nextFavorite"/>
+                     @next-favorite="nextFavorite"
+                     @select-favorite="selectFavorite($event)"
+                     @remove-favorite="$store.dispatch('removeFavorite', $event)"/>
         </div>
         <VLoader v-else-if="loading" key="load"/>
         <VError v-else-if="hasError" key="error">
@@ -89,7 +91,7 @@ export default {
       }
       return this.errorLabel.default;
     },
-    ...mapGetters(['isFavorite']),
+    ...mapGetters(['isFavorite', 'getByIndex']),
   },
   methods: {
     async getWeather() {
@@ -138,6 +140,10 @@ export default {
         this.query = next;
         this.getWeather();
       }
+    },
+    selectFavorite(index) {
+      this.query = this.getByIndex(index);
+      this.getWeather();
     },
   },
   mounted() {
