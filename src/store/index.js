@@ -36,11 +36,17 @@ export default new Vuex.Store({
     getFirstFavorite({ favorites }) {
       return favorites.length ? favorites[0] : '';
     },
+    getAllFavorites({ favorites }) {
+      return favorites;
+    },
     canSet({ favorites, maxLength }) {
       return favorites.length < maxLength;
     },
     isFavorite({ favorites }) {
-      return (place) => favorites.includes(place);
+      return (place) => ({
+        idx: favorites.findIndex((p) => p === place),
+        len: favorites.length,
+      });
     },
     prevFavorite({ favorites }) {
       return (place) => {
@@ -50,7 +56,7 @@ export default new Vuex.Store({
         const indexOfPlace = favorites.findIndex((p) => p === place);
         if (indexOfPlace !== -1) {
           if (indexOfPlace === 0) {
-            return place;
+            return favorites[favorites.length - 1];
           }
           return favorites[indexOfPlace - 1];
         }
@@ -65,7 +71,7 @@ export default new Vuex.Store({
         const indexOfPlace = favorites.findIndex((p) => p === place);
         if (indexOfPlace !== -1) {
           if (indexOfPlace === favorites.length - 1) {
-            return place;
+            return favorites[0];
           }
           return favorites[indexOfPlace + 1];
         }
