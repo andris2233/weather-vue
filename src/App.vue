@@ -32,7 +32,8 @@
                      @star-clicked="toFavorite(isFavorite(weather.name))"
                      @prev-favorite="prevFavorite"
                      @next-favorite="nextFavorite"
-                     @select-favorite="selectFavorite($event)"/>
+                     @select-favorite="selectFavorite($event)"
+                     @remove-favorite="$store.dispatch('removeFavorite', $event)"/>
         </div>
         <VLoader v-else-if="loading" key="load"/>
         <VError v-else-if="hasError" key="error">

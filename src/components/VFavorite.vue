@@ -10,13 +10,16 @@
         keyboard_arrow_right
       </i>
     </div>
-    <div class="pages" @click="showSelect = true">
+    <div v-if="getAllFavorites.length"
+         class="pages"
+         @click="showSelect = true">
       <transition name="select" appear>
         <VFavoritesMenu v-if="showSelect"
                         v-click-outside="hideSelect"
                         :options="getAllFavorites"
                         class="pages-select"
-                        @select="selectFavorite($event)"/>
+                        @select="selectFavorite($event)"
+                        @remove-favorite="$emit('remove-favorite', $event)"/>
       </transition>
       <div v-for="(dot, index) in getAllFavorites"
           :key="dot"
@@ -61,7 +64,7 @@ export default {
       this.$emit('select-favorite', index);
       setTimeout(() => {
         this.hideSelect();
-      }, 100);
+      }, 50);
     },
   },
 };

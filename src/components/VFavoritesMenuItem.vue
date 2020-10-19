@@ -5,7 +5,7 @@
     <transition name="remove" appear>
       <i v-if="isRemovable"
          class="material-icons m-l-5px"
-         @click="$emit('remove', index)">
+         @mouseup.stop="$emit('remove', index)">
            remove_circle_outline
       </i>
     </transition>
@@ -35,6 +35,7 @@ export default {
     color: rgba(255, 255, 255, 0.788);
     padding: 6px 10px;
     transition: .2s;
+    min-height: 36px;
     &:hover {
       background: rgba($color: #fff, $alpha: 0.2);
     }
