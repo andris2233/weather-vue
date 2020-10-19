@@ -143,6 +143,9 @@ export default {
     background-color: rgba($color: #fff, $alpha: 0.2);
     border-radius: 10px;
     padding: 15px;
+    @media (max-width: 485px) {
+      padding: 10px;
+    }
     color: rgba($color: #000, $alpha: 0.5);
     height: 100%;
     overflow: auto;
@@ -177,13 +180,13 @@ export default {
           border-radius: 5px;
           margin: 5px;
           border: 2px solid rgba($color: #fff, $alpha: .2);
-          font-size: 1.2rem;
+          font-size: 1.1rem;
           font-weight: 600;
           color: rgba($color: #fff, $alpha: 0.6);
           min-width: 60px;
 
           &-day {
-            font-size: 1rem;
+            font-size: 0.9rem;
           }
         }
         &-header {

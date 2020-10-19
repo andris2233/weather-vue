@@ -92,6 +92,9 @@ export default {
       flex-direction: row;
       align-items: center;
       justify-content: center;
+      @media (max-width: 560px) {
+        justify-content: space-between;
+      }
     }
     &-column {
       display: flex;
@@ -107,6 +110,9 @@ export default {
       color: rgba($color: #fff, $alpha: 0.7);
       text-shadow: 2px 2px 3px rgba($color: #000, $alpha: 0.7);
       font-weight: 600;
+      @media (max-width: 405px) {
+        font-size: 1.6rem;
+      }
     }
     &__date {
       font-size: 1.2rem;
@@ -124,7 +130,7 @@ export default {
       width: 140px;
       height: 140px;
       opacity: 0.5;
-      @media (max-width: 560px) {
+      @media (max-width: 485px) {
         display: none;
       }
     }

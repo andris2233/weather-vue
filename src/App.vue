@@ -196,6 +196,9 @@ body {
   @media (max-width: 560px) {
     padding: 30px 15px;
   }
+  @media (max-width: 450px) {
+    padding: 20px 10px;
+  }
 }
 
 .content-enter-active,
@@ -220,10 +223,10 @@ body {
     padding: 30px 40px;
   }
   @media (max-width: 405px) {
-    padding: 30px 20px;
+    padding: 20px;
   }
   @media (max-width: 360px) {
-    padding: 30px 10px;
+    padding: 15px 10px;
   }
 }
 
