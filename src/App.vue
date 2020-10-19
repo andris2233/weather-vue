@@ -110,12 +110,6 @@ export default {
       }
     },
   },
-  mounted() {
-    this.query = this.$store.getters.getFirstFavorite;
-    if (this.query) {
-      this.getWeather();
-    }
-  },
 };
 </script>
 
