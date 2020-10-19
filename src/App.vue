@@ -142,8 +142,11 @@ export default {
       }
     },
     selectFavorite(index) {
-      this.query = this.getByIndex(index);
-      this.getWeather();
+      const query = this.getByIndex(index);
+      if (query !== this.query) {
+        this.query = query;
+        this.getWeather();
+      }
     },
   },
   mounted() {
