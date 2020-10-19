@@ -1,11 +1,11 @@
 <template>
   <div class="favorites-menu__item"
-       @mouseup="$emit('select', index)">
+       @mousedown="$emit('select', index)">
     <slot />
     <transition name="remove" appear>
       <i v-if="isRemovable"
          class="material-icons m-l-5px"
-         @mouseup.stop="$emit('remove', index)">
+         @mousedown.stop="$emit('remove', index)">
            remove_circle_outline
       </i>
     </transition>
