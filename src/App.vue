@@ -36,9 +36,14 @@
                      @remove-favorite="$store.dispatch('removeFavorite', $event)"/>
         </div>
         <VLoader v-else-if="loading" key="load"/>
-        <VError v-else-if="hasError" key="error">
-          {{errorText}}
-        </VError>
+        <div v-else-if="hasError"
+             key="error"
+             class="main-errors">
+          <VError class="m-b-15px">
+            {{errorText}}
+          </VError>
+          <VFavoriteList />
+        </div>
       </transition>
     </form>
   </div>
@@ -50,6 +55,7 @@ import VError from '@/components/VError.vue';
 import VLoader from '@/components/VLoader.vue';
 import VWeather from '@/components/VWeather.vue';
 import VForecast from '@/components/VForecast.vue';
+import VFavoriteList from '@/components/VFavoriteList.vue';
 
 import weatherApi from '@/api/current-weather';
 import { mapGetters } from 'vuex';
@@ -61,6 +67,7 @@ export default {
     VLoader,
     VWeather,
     VForecast,
+    VFavoriteList,
   },
   data() {
     return {
