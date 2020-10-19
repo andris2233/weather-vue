@@ -10,6 +10,7 @@
            class="searchbar__input"
            type="text"
            :placeholder="placeholder"
+           :value="value"
            @input="$emit('input', $event.target.value)"
            @focus="focused=true"
            @blur="focused=false"
