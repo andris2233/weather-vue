@@ -91,11 +91,12 @@ export default {
       let forecast;
       this.loading = true;
       this.hasError = false;
-      this.statusCode = 200;
+      this.weather = null;
+      this.forecast = null;
       try {
         weather = await weatherApi.getCurrWeatherByCountry(this.query);
-        this.weather = weather.data;
         forecast = await weatherApi.getForecastWeatherByCountry(this.query);
+        this.weather = weather.data;
         this.forecast = forecast.data;
       } catch (e) {
         if (e.message === 'apiKey') {
@@ -108,6 +109,12 @@ export default {
         this.hasError = true;
       }
     },
+  },
+  mounted() {
+    this.query = this.$store.getters.getFirstFavorite;
+    if (this.query) {
+      this.getWeather();
+    }
   },
 };
 </script>
