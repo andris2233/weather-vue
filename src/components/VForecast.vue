@@ -29,6 +29,8 @@
     <VFavorite class="m-t-10px"
                :isFavorite="isFavorite"
                @star-clicked="$emit('star-clicked')"
+               @prev-favorite="$emit('prev-favorite')"
+               @next-favorite="$emit('next-favorite')"
     />
   </div>
 </template>

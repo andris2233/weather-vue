@@ -29,7 +29,9 @@
           <VForecast :weather="forecast.list"
                      :timezone="forecast.city.timezone"
                      :is-favorite="isFavorite(weather.name)"
-                     @star-clicked="toFavorite(isFavorite(weather.name))"/>
+                     @star-clicked="toFavorite(isFavorite(weather.name))"
+                     @prev-favorite="prevFavorite"
+                     @next-favorite="nextFavorite"/>
         </div>
         <VLoader v-else-if="loading" key="load"/>
         <VError v-else-if="hasError" key="error">
@@ -120,6 +122,28 @@ export default {
         this.$store.dispatch('setFavorite', name);
       }
     },
+    prevFavorite() {
+      const { name } = this.weather;
+      const prev = this.$store.getters.prevFavorite(name);
+      if (prev !== this.query) {
+        this.query = prev;
+        this.getWeather();
+      }
+    },
+    nextFavorite() {
+      const { name } = this.weather;
+      const next = this.$store.getters.nextFavorite(name);
+      if (next !== this.query) {
+        this.query = next;
+        this.getWeather();
+      }
+    },
+  },
+  mounted() {
+    this.query = this.$store.getters.getFirstFavorite;
+    if (this.query) {
+      this.getWeather();
+    }
   },
 };
 </script>

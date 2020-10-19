@@ -1,10 +1,12 @@
 <template>
   <div class="favorite">
     <div class="controls">
-      <i class="material-icons controls-icon m-r-5px">
+      <i class="material-icons controls-icon m-r-5px"
+         @click="$emit('prev-favorite')">
         keyboard_arrow_left
       </i>
-      <i class="material-icons controls-icon">
+      <i class="material-icons controls-icon"
+         @click="$emit('next-favorite')">
         keyboard_arrow_right
       </i>
     </div>

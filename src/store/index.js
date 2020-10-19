@@ -42,5 +42,35 @@ export default new Vuex.Store({
     isFavorite({ favorites }) {
       return (place) => favorites.includes(place);
     },
+    prevFavorite({ favorites }) {
+      return (place) => {
+        if (!favorites.length) {
+          return null;
+        }
+        const indexOfPlace = favorites.findIndex((p) => p === place);
+        if (indexOfPlace !== -1) {
+          if (indexOfPlace === 0) {
+            return place;
+          }
+          return favorites[indexOfPlace - 1];
+        }
+        return favorites[0];
+      };
+    },
+    nextFavorite({ favorites }) {
+      return (place) => {
+        if (!favorites.length) {
+          return null;
+        }
+        const indexOfPlace = favorites.findIndex((p) => p === place);
+        if (indexOfPlace !== -1) {
+          if (indexOfPlace === favorites.length - 1) {
+            return place;
+          }
+          return favorites[indexOfPlace + 1];
+        }
+        return favorites[0];
+      };
+    },
   },
 });
