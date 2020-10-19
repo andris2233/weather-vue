@@ -5,7 +5,12 @@
            :key="index"
            class="forecast__row">
         <div class="forecast__row-item__filled">
-          {{displayDate(row)}}
+          <div class="forecast__row-item__filled-day">
+            {{weekDayFormat(row)}}
+          </div>
+          <div class="forecast__row-item__filled-date">
+            {{displayDate(row)}}
+          </div>
         </div>
         <div v-for="(item, idx) in row"
             :key="idx"
@@ -60,6 +65,11 @@ export default {
   components: {
     VFavorite,
   },
+  data() {
+    return {
+      weekDays: ['Вс', 'Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб'],
+    };
+  },
   computed: {
     weatherList() {
       const { weather, timezone } = this;
@@ -104,6 +114,13 @@ export default {
   methods: {
     dayFormat(dt) {
       return `${dt.getHours()}:00`;
+    },
+    weekDayFormat(array) {
+      const withDate = array.find((item) => item.dt);
+      if (!withDate) {
+        return '';
+      }
+      return this.weekDays[withDate.dt.getDay()];
     },
     displayDate(array) {
       const withDate = array.find((item) => item.dt);
@@ -155,7 +172,8 @@ export default {
         &__filled {
           display: flex;
           align-items: center;
-          justify-content: center;
+          flex-direction: column;
+          justify-content: space-around;
           border-radius: 5px;
           margin: 5px;
           border: 2px solid rgba($color: #fff, $alpha: .2);
@@ -163,6 +181,10 @@ export default {
           font-weight: 600;
           color: rgba($color: #fff, $alpha: 0.6);
           min-width: 60px;
+
+          &-day {
+            font-size: 1rem;
+          }
         }
         &-header {
           display: flex;

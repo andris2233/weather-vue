@@ -42,7 +42,7 @@ export default {
     &::after {
       content: '';
       height: 1px;
-      width: 80%;
+      width: 90%;
       background: rgba($color: #fff, $alpha: 0.3);
       position: absolute;
       bottom: 0;
