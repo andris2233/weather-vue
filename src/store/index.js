@@ -78,5 +78,8 @@ export default new Vuex.Store({
         return favorites[0];
       };
     },
+    getByIndex({ favorites }) {
+      return (index) => favorites[index];
+    },
   },
 });

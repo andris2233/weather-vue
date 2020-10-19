@@ -31,6 +31,7 @@
                @star-clicked="$emit('star-clicked')"
                @prev-favorite="$emit('prev-favorite')"
                @next-favorite="$emit('next-favorite')"
+               @select-favorite="$emit('select-favorite', $event)"
     />
   </div>
 </template>
