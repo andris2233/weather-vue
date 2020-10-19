@@ -27,7 +27,11 @@
             </template>
           </VWeather>
           <VForecast :weather="forecast.list"
-                      :timezone="forecast.city.timezone"/>
+                     :timezone="forecast.city.timezone"
+                     :is-favorite="isFavorite(weather.name)"
+                     @star-clicked="toFavorite(isFavorite(weather.name))"
+                     @prev-favorite="prevFavorite"
+                     @next-favorite="nextFavorite"/>
         </div>
         <VLoader v-else-if="loading" key="load"/>
         <VError v-else-if="hasError" key="error">
@@ -46,6 +50,7 @@ import VWeather from '@/components/VWeather.vue';
 import VForecast from '@/components/VForecast.vue';
 
 import weatherApi from '@/api/current-weather';
+import { mapGetters } from 'vuex';
 
 export default {
   components: {
@@ -84,6 +89,7 @@ export default {
       }
       return this.errorLabel.default;
     },
+    ...mapGetters(['isFavorite']),
   },
   methods: {
     async getWeather() {
@@ -109,6 +115,36 @@ export default {
         this.hasError = true;
       }
     },
+    toFavorite(isFav) {
+      const { name } = this.weather;
+      if (isFav) {
+        this.$store.dispatch('removeFavorite', name);
+      } else {
+        this.$store.dispatch('setFavorite', name);
+      }
+    },
+    prevFavorite() {
+      const { name } = this.weather;
+      const prev = this.$store.getters.prevFavorite(name);
+      if (prev !== this.query) {
+        this.query = prev;
+        this.getWeather();
+      }
+    },
+    nextFavorite() {
+      const { name } = this.weather;
+      const next = this.$store.getters.nextFavorite(name);
+      if (next !== this.query) {
+        this.query = next;
+        this.getWeather();
+      }
+    },
+  },
+  mounted() {
+    this.query = this.$store.getters.getFirstFavorite;
+    if (this.query) {
+      this.getWeather();
+    }
   },
 };
 </script>

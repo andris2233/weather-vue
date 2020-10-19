@@ -26,10 +26,17 @@
         </div>
       </div>
     </div>
+    <VFavorite class="m-t-10px"
+               :isFavorite="isFavorite"
+               @star-clicked="$emit('star-clicked')"
+               @prev-favorite="$emit('prev-favorite')"
+               @next-favorite="$emit('next-favorite')"
+    />
   </div>
 </template>
 
 <script>
+import VFavorite from '@/components/VFavorite.vue';
 import timezoneDate from '../_helper/timezoneDate';
 import iconLink from '../api/icon-link';
 
@@ -43,6 +50,13 @@ export default {
       type: Number,
       required: true,
     },
+    isFavorite: {
+      type: Boolean,
+      required: true,
+    },
+  },
+  components: {
+    VFavorite,
   },
   computed: {
     weatherList() {
@@ -103,12 +117,16 @@ export default {
 
 <style lang="scss" scoped>
   .forecast {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
     background-color: rgba($color: #fff, $alpha: 0.2);
     border-radius: 10px;
     padding: 15px;
     color: rgba($color: #000, $alpha: 0.5);
     height: 100%;
-    overflow: auto !important;
+    overflow: auto;
     &-wrapper {
       flex: 1;
       display: flex;
