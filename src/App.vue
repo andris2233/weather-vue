@@ -27,7 +27,9 @@
             </template>
           </VWeather>
           <VForecast :weather="forecast.list"
-                      :timezone="forecast.city.timezone"/>
+                     :timezone="forecast.city.timezone"
+                     :is-favorite="isFavorite(weather.name)"
+                     @star-clicked="toFavorite(isFavorite(weather.name))"/>
         </div>
         <VLoader v-else-if="loading" key="load"/>
         <VError v-else-if="hasError" key="error">
@@ -46,6 +48,7 @@ import VWeather from '@/components/VWeather.vue';
 import VForecast from '@/components/VForecast.vue';
 
 import weatherApi from '@/api/current-weather';
+import { mapGetters } from 'vuex';
 
 export default {
   components: {
@@ -84,6 +87,7 @@ export default {
       }
       return this.errorLabel.default;
     },
+    ...mapGetters(['isFavorite']),
   },
   methods: {
     async getWeather() {
@@ -106,6 +110,14 @@ export default {
         this.weather = null;
         this.loading = false;
         this.hasError = true;
+      }
+    },
+    toFavorite(isFav) {
+      const { name } = this.weather;
+      if (isFav) {
+        this.$store.dispatch('removeFavorite', name);
+      } else {
+        this.$store.dispatch('setFavorite', name);
       }
     },
   },

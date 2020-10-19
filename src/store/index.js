@@ -17,7 +17,7 @@ export default new Vuex.Store({
       }
     },
     removeFavorite(state, index) {
-      if (index) {
+      if (index || index === 0) {
         state.favorites.splice(index, 1);
         localStorage.setItem('favoritePlaces', JSON.stringify(state.favorites));
       }
@@ -27,8 +27,8 @@ export default new Vuex.Store({
     setFavorite({ commit }, place) {
       commit('setFavorite', place);
     },
-    removeFavorite({ commit, favorites }, place) {
-      const index = favorites.findIndex((item) => item === place);
+    removeFavorite({ commit, state }, place) {
+      const index = state.favorites.findIndex((item) => item === place);
       commit('removeFavorite', index);
     },
   },
