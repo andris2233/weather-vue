@@ -1,7 +1,7 @@
 <template>
   <div class="favorites-list">
     <div class="favorites-list__header">
-      Добавленно в избранном
+      Добавлено в избранном
       <i class="material-icons favorites-list__header-icon">
         star
       </i>
