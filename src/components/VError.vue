@@ -19,8 +19,8 @@
     align-items: stretch;
 
     padding: 15px;
-    border-radius: 5px;
-    background: rgba($color: #fff, $alpha: 0.3);
+    border-radius: 10px;
+    background: rgba($color: rgb(255, 99, 99), $alpha: 0.5);
     color: rgba($color: #000, $alpha: 0.5);
 
     &__header {
