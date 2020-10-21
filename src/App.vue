@@ -254,10 +254,10 @@ body {
   box-sizing: border-box;
   padding: 30px 0;
   @media (max-width: 850px) {
-    padding: 30px 40px;
+    padding: 13px;
   }
   @media (max-width: 405px) {
-    padding: 20px;
+    padding: 10px;
   }
   @media (max-width: 360px) {
     padding: 15px 10px;
