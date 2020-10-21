@@ -164,6 +164,25 @@ export default {
         this.getWeather();
       }
     },
+    cachingWeather(query, duration) {
+      const sec = 60000;
+      const cache = {};
+      return async function decorator() {
+        if (!cache[query] || Date.now() - cache[query].ts > sec * duration) {
+          cache[query] = {
+            data: await weatherApi.getCurrWeatherByCountry(query),
+            ts: Date.now(),
+          };
+        }
+        console.log(cache);
+        return cache[query].data;
+      };
+    },
+    async cachingForecast(query, duration) {
+      const sec = 60000;
+      weatherApi.getCurrWeatherByCountry(query);
+      return sec * duration;
+    },
   },
   mounted() {
     this.query = this.$store.getters.getFirstFavorite;
