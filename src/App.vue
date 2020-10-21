@@ -85,6 +85,8 @@ export default {
         apiKey: 'Необходимо указать apiKey',
         default: 'Сервис в данный момент не доступен',
       },
+      cacheData: {},
+      cacheDuration: 3 * 60000, // min * ms
     };
   },
   computed: {
@@ -104,17 +106,34 @@ export default {
   },
   methods: {
     async getWeather() {
+      const { cacheDuration } = this;
+      const query = this.query.toLowerCase();
       let weather;
       let forecast;
+
       this.loading = true;
       this.hasError = false;
       this.weather = null;
       this.forecast = null;
+
       try {
-        weather = await weatherApi.getCurrWeatherByCountry(this.query);
-        forecast = await weatherApi.getForecastWeatherByCountry(this.query);
-        this.weather = weather.data;
-        this.forecast = forecast.data;
+        const cacheData = this.cacheData[query];
+        if (cacheData && cacheData.ts > Date.now() - cacheDuration) {
+          setTimeout(() => {
+            this.weather = cacheData.weather;
+            this.forecast = cacheData.forecast;
+          }, 100);
+        } else {
+          weather = await weatherApi.getCurrWeatherByCountry(query);
+          forecast = await weatherApi.getForecastWeatherByCountry(query);
+          this.cacheData[query] = {
+            weather: weather.data,
+            forecast: forecast.data,
+            ts: Date.now(),
+          };
+          this.weather = weather.data;
+          this.forecast = forecast.data;
+        }
       } catch (e) {
         if (e.message === 'apiKey') {
           this.statusCode = -1;
@@ -163,25 +182,6 @@ export default {
         this.query = query;
         this.getWeather();
       }
-    },
-    cachingWeather(query, duration) {
-      const sec = 60000;
-      const cache = {};
-      return async function decorator() {
-        if (!cache[query] || Date.now() - cache[query].ts > sec * duration) {
-          cache[query] = {
-            data: await weatherApi.getCurrWeatherByCountry(query),
-            ts: Date.now(),
-          };
-        }
-        console.log(cache);
-        return cache[query].data;
-      };
-    },
-    async cachingForecast(query, duration) {
-      const sec = 60000;
-      weatherApi.getCurrWeatherByCountry(query);
-      return sec * duration;
     },
   },
   mounted() {
