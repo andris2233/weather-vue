@@ -1,0 +1,67 @@
+<template>
+  <transition-group name="notification"
+                    class="notification-wrapper"
+                    tag="div"
+  >
+    <VNotification v-for="notification of getNotifications"
+                   :key="notification.id"
+                   :notification="notification"
+                   class="notification-wrapper__item"
+                   @clear="clearNotification($event)"/>
+  </transition-group>
+</template>
+
+<script>
+import VNotification from '@/components/VNotification.vue';
+import { mapGetters } from 'vuex';
+
+export default {
+  components: {
+    VNotification,
+  },
+  computed: {
+    ...mapGetters(['getNotifications']),
+  },
+  methods: {
+    clearNotification(id) {
+      this.$store.dispatch('removeNotification', id);
+    },
+  },
+};
+</script>
+
+<style lang="scss" scoped>
+  .notification-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+
+    position: absolute;
+    top: 30px;
+    right: 10px;
+
+    width: 400px;
+    z-index: 10;
+    @media (max-width: 560px) {
+      right: 0;
+      width: 100%;
+    }
+    &__item {
+      margin: 5px;
+      @media (max-width: 560px) {
+        margin: 5px 20px;
+      }
+    }
+  }
+  .notification-enter {
+    transform: translate(0, -100px);
+    opacity: 0;
+  }
+  .notification-leave-active {
+    position: absolute;
+  }
+  .notification-leave-to {
+    transform: scale(0.9);
+    opacity: 0;
+  }
+</style>

@@ -48,6 +48,7 @@
         </div>
       </transition>
     </form>
+    <VNotificationWrapper />
   </div>
 </template>
 
@@ -58,6 +59,7 @@ import VLoader from '@/components/VLoader.vue';
 import VWeather from '@/components/VWeather.vue';
 import VForecast from '@/components/VForecast.vue';
 import VFavoriteList from '@/components/VFavoriteList.vue';
+import VNotificationWrapper from '@/components/VNotificationWrapper.vue';
 
 import weatherApi from '@/api/current-weather';
 import { mapGetters } from 'vuex';
@@ -70,6 +72,7 @@ export default {
     VWeather,
     VForecast,
     VFavoriteList,
+    VNotificationWrapper,
   },
   data() {
     return {
@@ -102,12 +105,20 @@ export default {
       }
       return this.errorLabel.default;
     },
-    ...mapGetters(['isFavorite', 'getByIndex', 'getAllFavorites']),
+    ...mapGetters(['isFavorite', 'getByIndex', 'getAllFavorites', 'canSet']),
   },
   methods: {
     async getWeather() {
       const { cacheDuration } = this;
       const query = this.query.toLowerCase();
+
+      if (!query) {
+        this.$store.dispatch('addNotification', {
+          title: 'Не заполнено поле ввода!',
+          message: 'Пожалуйста, заполните строку поиска и повторите попытку',
+        });
+        return;
+      }
       let weather;
       let forecast;
 
@@ -149,8 +160,13 @@ export default {
       const { name } = this.weather;
       if (isFav.idx !== -1) {
         this.$store.dispatch('removeFavorite', name);
-      } else {
+      } else if (this.canSet) {
         this.$store.dispatch('setFavorite', name);
+      } else {
+        this.$store.dispatch('addNotification', {
+          title: 'Невозможно добавить в избранное!',
+          message: `Превышено максимальное число избранных мест. Для того, чтобы добавить ${name} в избранное, необходимо удалить одно из старых.`,
+        });
       }
     },
     prevFavorite() {

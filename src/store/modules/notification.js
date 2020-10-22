@@ -8,8 +8,7 @@ export default {
       if (!state.notifications.find((n) => n.title === notification.title)) {
         const id = Date.now();
         const timeoutId = setTimeout(() => {
-          const idx = state.notifications.find((n) => n.id === id);
-          state.notifications.splice(idx, 1);
+          state.notifications.pop();
         }, state.removeDuration);
         state.notifications.unshift({
           id,
@@ -19,8 +18,8 @@ export default {
       }
     },
     removeNotification(state, id) {
-      const idx = state.notifications.find((n) => n.id === id);
-      clearTimeout(state.notifications[idx]);
+      const idx = state.notifications.findIndex((n) => n.id === id);
+      clearTimeout(state.notifications[idx].timeoutId);
       state.notifications.splice(idx, 1);
     },
   },
