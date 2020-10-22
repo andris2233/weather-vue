@@ -75,6 +75,7 @@ export default {
     display: flex;
     align-items: center;
     justify-content: space-between;
+    position: relative;
 
     padding: 5px 10px;
     border-radius: 20px;
@@ -88,6 +89,9 @@ export default {
       &:hover {
         color: rgba($color: #fff, $alpha: 0.7);
       }
+      @media (max-width: 560px) {
+        font-size: 30px;
+      }
     }
     .controls {
       display: flex;
@@ -96,7 +100,10 @@ export default {
     .pages {
       display: flex;
       align-items: center;
-      position: relative;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
       transition: .2s;
       padding: 5px;
       border-radius: 3px;

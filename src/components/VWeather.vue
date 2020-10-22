@@ -6,10 +6,10 @@
           <div class="weather__place m-b-5px">
             <slot name="place" />
           </div>
-          <div class="weather__date m-b-5px">
+          <div class="weather__date">
             {{formatDate}}
           </div>
-          <div class="weather__desc m-b-5px">
+          <div class="weather__desc">
             <slot name="desc" />
             <img v-if="icon"
                  class="weather__desc-img"
@@ -87,6 +87,9 @@ export default {
     border-radius: 10px;
     padding: 15px;
     color: rgba($color: #000, $alpha: 0.5);
+    @media (max-width: 560px) {
+      padding: 10px;
+    }
     &-wrapper {
       display: flex;
       flex-direction: row;

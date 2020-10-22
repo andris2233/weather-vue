@@ -202,6 +202,13 @@ export default {
 
 body {
   margin: 0;
+  height: 100vh;
+}
+
+html {
+  @media (max-width: 560px) {
+    font-size: 13px;
+  }
 }
 
 .main {
@@ -248,7 +255,7 @@ body {
 
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
-  height: 100vh;
+  height: 100%;
   background: linear-gradient(180deg, #0e2555, #1f6ca0, #398eaf);
   width: 100%;
   box-sizing: border-box;

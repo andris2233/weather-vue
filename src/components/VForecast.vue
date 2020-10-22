@@ -17,11 +17,11 @@
             class="forecast__row-item"
         >
           <div class="forecast__row-item-header">
-            <img class="forecast__row-item-icon m-b-5px"
+            <img class="forecast__row-item-icon"
                 :src="item.icon"
                 :style="{display: item.icon ? 'inline-block' : 'none'}"
             >
-            <div class="forecast__row-item-date m-b-5px">
+            <div class="forecast__row-item-date">
               {{item.dt ? dayFormat(item.dt) : ''}}
             </div>
           </div>
@@ -165,9 +165,13 @@ export default {
         flex: 1;
         border-radius: 5px;
         border: 2px solid rgba($color: #fff, $alpha: .2);
-        margin: 5px;
         padding: 5px;
         min-width: 72px;
+        margin: 5px;
+        @media (max-width: 560px) {
+          min-width: 62px;
+          margin: 3px;
+        }
         transition: .2s;
         &:hover {
           background: rgba($color: #fff, $alpha: 0.1)
@@ -178,12 +182,16 @@ export default {
           flex-direction: column;
           justify-content: space-around;
           border-radius: 5px;
-          margin: 5px;
           border: 2px solid rgba($color: #fff, $alpha: .2);
+          margin: 5px;
           font-size: 1.1rem;
           font-weight: 600;
           color: rgba($color: #fff, $alpha: 0.6);
           min-width: 60px;
+          @media (max-width: 560px) {
+            min-width: 50px;
+            margin: 3px;
+          }
 
           &-day {
             font-size: 0.9rem;
@@ -192,11 +200,15 @@ export default {
         &-header {
           display: flex;
           align-items: center;
+          margin-bottom: 5px;
           justify-content: space-between;
+          @media (max-width: 560px) {
+            margin-bottom: 2px;
+          }
         }
         &-icon {
-          width: 20px;
-          height: 20px;
+          width: 18px;
+          height: 18px;
         }
         &-date {
           font-size: 0.9rem;
