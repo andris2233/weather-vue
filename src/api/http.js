@@ -1,5 +1,4 @@
 import axios from 'axios';
-import apiKey from './apiKey';
 
 const http = axios.create({
   baseURL: 'https://api.openweathermap.org/data/2.5/',
@@ -8,4 +7,5 @@ const http = axios.create({
   },
 });
 
-export { http, apiKey };
+// eslint-disable-next-line import/prefer-default-export
+export { http };

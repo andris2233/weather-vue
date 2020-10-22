@@ -1,7 +1,7 @@
-import { http, apiKey } from './http';
+import { http } from './http';
 
 export default {
-  apiKey,
+  apiKey: process.env.VUE_APP_API_KEY,
   notApiKey() {
     throw new Error('apiKey');
   },
