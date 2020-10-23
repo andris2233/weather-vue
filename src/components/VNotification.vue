@@ -1,5 +1,7 @@
 <template>
-  <div class="notification-item">
+  <div class="notification-item"
+       @mouseover="$emit('mouseover', notification.id)"
+       @mouseleave="$emit('mouseleave', notification.id)">
     <div class="notification-item__header">
       <div class="notification-item__header-text m-b-10px">
         {{notification.title}}
@@ -29,9 +31,12 @@ export default {
 <style lang="scss" scoped>
   .notification-item {
     border-radius: 10px;
-    background: linear-gradient(120deg, rgba(199, 236, 243, 0.9), rgba(180, 219, 245, 0.9));
+    background: linear-gradient(120deg, rgba(199, 236, 243, 0.88), rgba(180, 219, 245, 0.88));
     padding: 10px;
     transition: all .3s;
+    &:hover {
+      background: linear-gradient(120deg, rgb(199, 236, 243), rgb(180, 219, 245));
+    }
     &__header {
       display: flex;
       align-items: flex-start;

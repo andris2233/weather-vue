@@ -7,7 +7,10 @@
                    :key="notification.id"
                    :notification="notification"
                    class="notification-wrapper__item"
-                   @clear="clearNotification($event)"/>
+                   @clear="clearNotification($event)"
+                   @mouseover="clearNotificationTimeout($event)"
+                   @mouseleave="setNotificationTimeout($event)"
+                   />
   </transition-group>
 </template>
 
@@ -25,6 +28,12 @@ export default {
   methods: {
     clearNotification(id) {
       this.$store.dispatch('removeNotification', id);
+    },
+    clearNotificationTimeout(id) {
+      this.$store.dispatch('clearNotificationTimeout', id);
+    },
+    setNotificationTimeout(id) {
+      this.$store.dispatch('setNotificationTimeout', id);
     },
   },
 };
