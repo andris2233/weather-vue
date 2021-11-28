@@ -1,36 +1,45 @@
 <template>
   <div class="favorite">
     <div class="controls">
-      <i class="material-icons controls-icon m-r-5px"
-         @click="$emit('prev-favorite')">
-        keyboard_arrow_left
-      </i>
-      <i class="material-icons controls-icon"
-         @click="$emit('next-favorite')">
-        keyboard_arrow_right
-      </i>
+      <i
+        class="material-icons controls-icon m-r-5px"
+        @click="$emit('prev-favorite')">keyboard_arrow_left</i>
+      <i
+        class="material-icons controls-icon"
+        @click="$emit('next-favorite')">keyboard_arrow_right</i>
     </div>
-    <div v-if="getAllFavorites.length"
-         class="pages"
-         @click="showSelect = true">
+    <div
+      v-if="getAllFavorites.length"
+      class="pages"
+      @click="showSelect = true"
+    >
+
       <transition name="select" appear>
-        <VFavoritesMenu v-if="showSelect"
-                        v-click-outside="hideSelect"
-                        :options="getAllFavorites"
-                        class="pages-select"
-                        @select="selectFavorite($event)"
-                        @remove-favorite="$emit('remove-favorite', $event)"/>
+        <VFavoritesMenu
+          v-if="showSelect"
+          v-click-outside="hideSelect"
+          :options="getAllFavorites"
+          class="pages-select"
+          @select="selectFavorite($event)"
+          @remove-favorite="$emit('remove-favorite', $event)"
+        />
       </transition>
-      <div v-for="(dot, index) in getAllFavorites"
-          :key="dot"
-          :class="{'pages__circle-active': index === isFavorite.idx,
-                   'm-r-5px': index !== getAllFavorites.length - 1}"
-          class="pages__circle">
-      </div>
+
+      <div
+        v-for="(dot, index) in getAllFavorites"
+        :key="dot"
+        :class="{
+          'pages__circle-active': index === isFavorite.idx,
+          'm-r-5px': index !== getAllFavorites.length - 1
+        }"
+        class="pages__circle"
+      />
     </div>
-    <i class="material-icons favorite-icon"
-       @click="$emit('star-clicked')">
-        {{ isFavorite.idx !== -1 ? 'star' : 'star_border' }}
+    <i
+      class="material-icons favorite-icon"
+      @click="$emit('star-clicked')"
+    >
+      {{ isFavorite.idx !== -1 ? 'star' : 'star_border' }}
     </i>
   </div>
 </template>
@@ -41,30 +50,29 @@ import { mapGetters } from 'vuex';
 
 export default {
   name: 'VFavorite',
+  components: { VFavoritesMenu },
+
   props: {
-    isFavorite: {
-      type: Object,
-      required: true,
-    },
+    isFavorite: { type: Object, required: true },
   },
+
   data() {
     return {
       showSelect: false,
     };
   },
-  components: { VFavoritesMenu },
+
   computed: {
     ...mapGetters(['getAllFavorites']),
   },
+
   methods: {
-    hideSelect() {
-      this.showSelect = false;
-    },
+    hideSelect() { this.showSelect = false; },
+
     selectFavorite(index) {
       this.$emit('select-favorite', index);
-      setTimeout(() => {
-        this.hideSelect();
-      }, 50);
+
+      setTimeout(() => { this.hideSelect(); }, 50);
     },
   },
 };

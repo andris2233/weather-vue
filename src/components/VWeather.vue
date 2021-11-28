@@ -3,29 +3,20 @@
     <transition name="weather" appear>
       <div class="weather-wrapper">
         <div class="weather-column m-r-10px">
-          <div class="weather__place m-b-5px">
-            <slot name="place" />
-          </div>
-          <div class="weather__date">
-            {{formatDate}}
-          </div>
+          <div class="weather__place m-b-5px"><slot name="place" /></div>
+
+          <div class="weather__date">{{ formatDate }}</div>
           <div class="weather__desc">
             <slot name="desc" />
-            <img v-if="icon"
-                 class="weather__desc-img"
-                 :src="descImg"
-                 alt=""
-            >
+
+            <img v-if="icon" class="weather__desc-img" :src="descImg" alt="">
           </div>
-          <div class="weather__temp">
-            <slot name="temp" />°C
-          </div>
+
+          <div class="weather__temp"><slot name="temp" />°C</div>
         </div>
+
         <transition name="image" appear>
-          <img :src="dayTypes[dayImage]"
-              class="weather__image"
-              alt=""
-          >
+          <img :src="dayTypes[dayImage]" class="weather__image" alt="">
         </transition>
       </div>
     </transition>
@@ -39,29 +30,25 @@ import timezoneDate from '../_helper/timezoneDate';
 import iconLink from '../api/icon-link';
 
 export default {
+  name: 'VWeather',
   props: {
-    date: {
-      type: Object,
-      required: true,
-    },
-    icon: {
-      type: String,
-    },
+    date: { type: Object, required: true },
+    icon: { type: String },
   },
+
   data() {
     return {
-      dayTypes: [
-        sun,
-        moon,
-      ],
+      dayTypes: [sun, moon],
     };
   },
+
   computed: {
     formatDate() {
       const { ts, timezone } = this.date;
       const date = timezoneDate(ts * 1000, timezone);
       return date.toLocaleString();
     },
+
     dayImage() {
       const {
         ts,
@@ -69,14 +56,15 @@ export default {
         sunset,
         sunrise,
       } = this.date;
+
       const date = timezoneDate(ts * 1000, timezone);
       const sunsetDate = timezoneDate(sunset * 1000, timezone);
       const sunriseDate = timezoneDate(sunrise * 1000, timezone);
+
       return date < sunsetDate && date > sunriseDate ? 0 : 1;
     },
-    descImg() {
-      return iconLink(this.icon, '@2x');
-    },
+
+    descImg() { return iconLink(this.icon, '@2x'); },
   },
 };
 </script>

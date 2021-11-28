@@ -2,13 +2,10 @@
   <div class="error">
     <div class="error__header">
       <i class="material-icons m-l-5px error__header-icon">error_outline</i>
-      <div class="error__header-text m-b-10px">
-        Упс, что-то пошло не так!
-      </div>
+      <div class="error__header-text m-b-10px">Упс, что-то пошло не так!</div>
     </div>
-    <div class="error__content">
-      <slot />
-    </div>
+
+    <div class="error__content"><slot /></div>
   </div>
 </template>
 

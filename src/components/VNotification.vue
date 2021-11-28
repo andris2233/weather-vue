@@ -1,29 +1,30 @@
 <template>
-  <div class="notification-item"
-       @mouseover="$emit('mouseover', notification.id)"
-       @mouseleave="$emit('mouseleave', notification.id)">
+  <div
+    class="notification-item"
+    @mouseover="$emit('mouseover', notification.id)"
+    @mouseleave="$emit('mouseleave', notification.id)"
+  >
     <div class="notification-item__header">
-      <div class="notification-item__header-text m-b-10px">
-        {{notification.title}}
-      </div>
-      <i class="notification-item__header-icon material-icons"
-         @click="$emit('clear', notification.id)">
+      <div class="notification-item__header-text m-b-10px">{{ notification.title }}</div>
+
+      <i
+        class="notification-item__header-icon material-icons"
+        @click="$emit('clear', notification.id)"
+      >
         close
       </i>
     </div>
-    <div class="notification-item__message">
-      {{notification.message}}
-    </div>
+
+    <div class="notification-item__message">{{ notification.message }}</div>
   </div>
 </template>
 
 <script>
 export default {
+  name: 'VNotification',
+
   props: {
-    notification: {
-      type: Object,
-      required: true,
-    },
+    notification: { type: Object, required: true },
   },
 };
 </script>

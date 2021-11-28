@@ -1,11 +1,7 @@
 import axios from 'axios';
 
-const http = axios.create({
-  baseURL: 'https://api.openweathermap.org/data/2.5/',
-  headers: {
-    accept: 'application/json',
-  },
-});
+export default axios.create({
+  baseURL: `${process.env.VUE_APP_BASE_URL}/data/2.5/`,
 
-// eslint-disable-next-line import/prefer-default-export
-export { http };
+  headers: { accept: 'application/json' },
+});

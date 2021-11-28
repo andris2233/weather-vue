@@ -1,19 +1,20 @@
 <template>
-  <div :class="{'searchbar_active': focused}"
-       class="searchbar" @click="focused=true;
-       $refs.input.focus()"
+  <div
+    :class="{'searchbar_active': focused}"
+    class="searchbar" @click="focused=true;
+    $refs.input.focus()"
   >
-    <i class="searchbar__icon material-icons">
-      search
-    </i>
-    <input ref="input"
-           class="searchbar__input"
-           type="text"
-           :placeholder="placeholder"
-           :value="value"
-           @input="$emit('input', $event.target.value)"
-           @focus="focused=true"
-           @blur="focused=false"
+    <i class="searchbar__icon material-icons">search</i>
+
+    <input
+      ref="input"
+      class="searchbar__input"
+      type="text"
+      :placeholder="placeholder"
+      :value="value"
+      @input="$emit('input', $event.target.value)"
+      @focus="focused=true"
+      @blur="focused=false"
     >
   </div>
 </template>
@@ -21,21 +22,14 @@
 <script>
 export default {
   name: 'VSearchbar',
+
   props: {
-    value: {
-      type: [String, Number],
-      required: true,
-    },
-    placeholder: {
-      type: String,
-      default: 'Search',
-    },
+    value: { type: [String, Number], required: true },
+    placeholder: { type: String, default: 'Search' },
   },
+
   data() {
-    return {
-      search: '',
-      focused: false,
-    };
+    return { search: '', focused: false };
   },
 };
 </script>

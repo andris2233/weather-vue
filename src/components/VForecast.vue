@@ -1,43 +1,41 @@
 <template>
   <div class="forecast">
     <div class="forecast-wrapper">
-      <div v-for="(row, index) of weatherList"
-           :key="index"
-           class="forecast__row">
+      <div
+        v-for="(row, index) of weatherList"
+        :key="index"
+        class="forecast__row"
+      >
         <div class="forecast__row-item__filled">
-          <div class="forecast__row-item__filled-day">
-            {{weekDayFormat(row)}}
-          </div>
-          <div class="forecast__row-item__filled-date">
-            {{displayDate(row)}}
-          </div>
+          <div class="forecast__row-item__filled-day">{{ weekDayFormat(row) }}</div>
+          <div class="forecast__row-item__filled-date">{{ displayDate(row) }}</div>
         </div>
-        <div v-for="(item, idx) in row"
-            :key="idx"
-            class="forecast__row-item"
-        >
+
+        <div v-for="(item, idx) in row" :key="idx" class="forecast__row-item">
           <div class="forecast__row-item-header">
-            <img class="forecast__row-item-icon"
-                :src="item.icon"
-                :style="{display: item.icon ? 'inline-block' : 'none'}"
+            <img
+              class="forecast__row-item-icon"
+              :src="item.icon"
+              :style="{ display: item.icon ? 'inline-block' : 'none' }"
             >
             <div class="forecast__row-item-date">
               {{item.dt ? dayFormat(item.dt) : ''}}
             </div>
           </div>
-          <div class="forecast__row-item-temp">
-            {{item.temp ? `${item.temp}°C` : ''}}
-          </div>
+
+          <div class="forecast__row-item-temp">{{ item.temp ? `${item.temp}°C` : '' }}</div>
         </div>
       </div>
     </div>
-    <VFavorite class="m-t-10px"
-               :isFavorite="isFavorite"
-               @star-clicked="$emit('star-clicked')"
-               @prev-favorite="$emit('prev-favorite')"
-               @next-favorite="$emit('next-favorite')"
-               @select-favorite="$emit('select-favorite', $event)"
-               @remove-favorite="$emit('remove-favorite', $event)"
+
+    <VFavorite
+      class="m-t-10px"
+      :isFavorite="isFavorite"
+      @star-clicked="$emit('star-clicked')"
+      @prev-favorite="$emit('prev-favorite')"
+      @next-favorite="$emit('next-favorite')"
+      @select-favorite="$emit('select-favorite', $event)"
+      @remove-favorite="$emit('remove-favorite', $event)"
     />
   </div>
 </template>
@@ -48,37 +46,31 @@ import timezoneDate from '../_helper/timezoneDate';
 import iconLink from '../api/icon-link';
 
 export default {
+  name: 'VForecast',
+
   props: {
-    weather: {
-      type: Array,
-      default: () => [],
-    },
-    timezone: {
-      type: Number,
-      required: true,
-    },
-    isFavorite: {
-      type: Object,
-      required: true,
-    },
+    weather: { type: Array, default: () => [] },
+    timezone: { type: Number, required: true },
+    isFavorite: { type: Object, required: true },
   },
-  components: {
-    VFavorite,
-  },
+
+  components: { VFavorite },
+
   data() {
     return {
       weekDays: ['Вс', 'Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб'],
     };
   },
+
   computed: {
     weatherList() {
       const { weather, timezone } = this;
-      if (!weather) {
-        return [];
-      }
+      if (!weather) return [];
+
       const resultList = [];
       let curDay = timezoneDate(weather[0].dt * 1000, timezone).getDate();
       let day = [];
+
       for (let i = 0; i < weather.length; i++) {
         const iDay = timezoneDate(weather[i].dt * 1000, timezone).getDate();
         if (iDay !== curDay) {
@@ -93,40 +85,37 @@ export default {
           });
         }
       }
+
       if (resultList[0].length > 7) {
-        while (resultList[0].length > 7) {
-          resultList[0].shift({});
-        }
+        while (resultList[0].length > 7) resultList[0].shift({});
       } else if (resultList[0].length) {
-        while (resultList[0].length < 7) {
-          resultList[0].unshift({});
-        }
+        while (resultList[0].length < 7) resultList[0].unshift({});
       } else {
         resultList.shift();
       }
-      while (day.length < 7) {
-        day.push({});
-      }
+
+      while (day.length < 7) day.push({});
       resultList.push(day);
+
       return resultList;
     },
   },
+
   methods: {
-    dayFormat(dt) {
-      return `${dt.getHours()}:00`;
-    },
+    dayFormat(dt) { return `${dt.getHours()}:00`; },
+
     weekDayFormat(array) {
       const withDate = array.find((item) => item.dt);
-      if (!withDate) {
-        return '';
-      }
+
+      if (!withDate) return '';
+
       return this.weekDays[withDate.dt.getDay()];
     },
     displayDate(array) {
       const withDate = array.find((item) => item.dt);
-      if (!withDate) {
-        return '';
-      }
+
+      if (!withDate) return '';
+
       const date = withDate.dt.toLocaleDateString();
       return date.substring(0, date.length - 5);
     },

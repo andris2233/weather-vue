@@ -10,9 +10,9 @@ module.exports = {
   },
 
   rules: {
-    'no-console': 'off',
+    'no-console': 'warn',
     'no-plusplus': 0,
-    'no-debugger': 'off',
+    'no-debugger': 'warn',
     'vue/attributes-order': 1,
     'vue/no-confusing-v-for-v-if': 2,
     "linebreak-style": 0,

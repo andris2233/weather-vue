@@ -1,16 +1,18 @@
 <template>
-  <transition-group name="notification"
-                    class="notification-wrapper"
-                    tag="div"
+  <transition-group
+    name="notification"
+    class="notification-wrapper"
+    tag="div"
   >
-    <VNotification v-for="notification of getNotifications"
-                   :key="notification.id"
-                   :notification="notification"
-                   class="notification-wrapper__item"
-                   @clear="clearNotification($event)"
-                   @mouseover="clearNotificationTimeout($event)"
-                   @mouseleave="setNotificationTimeout($event)"
-                   />
+    <VNotification
+      v-for="notification of getNotifications"
+        :key="notification.id"
+        :notification="notification"
+        class="notification-wrapper__item"
+        @clear="clearNotification($event)"
+        @mouseover="clearNotificationTimeout($event)"
+        @mouseleave="setNotificationTimeout($event)"
+      />
   </transition-group>
 </template>
 
@@ -19,19 +21,21 @@ import VNotification from '@/components/VNotification.vue';
 import { mapGetters } from 'vuex';
 
 export default {
-  components: {
-    VNotification,
-  },
-  computed: {
-    ...mapGetters(['getNotifications']),
-  },
+  name: 'VNotificationWrapper',
+
+  components: { VNotification },
+
+  computed: { ...mapGetters(['getNotifications']) },
+
   methods: {
     clearNotification(id) {
       this.$store.dispatch('removeNotification', id);
     },
+
     clearNotificationTimeout(id) {
       this.$store.dispatch('clearNotificationTimeout', id);
     },
+
     setNotificationTimeout(id) {
       this.$store.dispatch('setNotificationTimeout', id);
     },
@@ -45,7 +49,7 @@ export default {
     flex-direction: column;
     align-items: stretch;
 
-    position: absolute;
+    position: fixed;
     top: 30px;
     right: 10px;
 

@@ -1,12 +1,17 @@
 <template>
-  <div class="favorites-menu__item"
-       @mousedown="$emit('select', index)">
+  <div
+    class="favorites-menu__item"
+    @mousedown="$emit('select', index)"
+  >
     <slot />
+
     <transition name="remove" appear>
-      <i v-if="isRemovable"
-         class="material-icons m-l-5px"
-         @mousedown.stop="$emit('remove', index)">
-           remove_circle_outline
+      <i
+        v-if="isRemovable"
+        class="material-icons m-l-5px"
+        @mousedown.stop="$emit('remove', index)"
+      >
+        remove_circle_outline
       </i>
     </transition>
   </div>
@@ -14,14 +19,11 @@
 
 <script>
 export default {
+  name: 'VFavoritesMenuItem',
+
   props: {
-    isRemovable: {
-      type: Boolean,
-    },
-    index: {
-      type: Number,
-      required: true,
-    },
+    isRemovable: { type: Boolean },
+    index: { type: Number, required: true },
   },
 };
 </script>

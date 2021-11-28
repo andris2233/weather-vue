@@ -1,14 +1,15 @@
 <template>
   <div class="favorites-menu">
-    <VFavoritesMenuItem v-for="(opt, index) of options"
-                        :key="opt"
-                        :is-removable="removable"
-                        :index="index"
-                        @select="$emit('select', $event)"
-                        @remove="$emit('remove-favorite', options[$event])"
+    <VFavoritesMenuItem
+      v-for="(opt, index) of options"
+      :key="opt"
+      :is-removable="removable"
+      :index="index"
+      @select="$emit('select', $event)"
+      @remove="$emit('remove-favorite', options[$event])"
     >
       <template>
-        {{opt}}
+        {{ opt }}
       </template>
     </VFavoritesMenuItem>
     <div class="favorites-menu__edit">
@@ -23,13 +24,14 @@
 import VFavoritesMenuItem from '@/components/VFavoritesMenuItem.vue';
 
 export default {
+  name: 'VFavoritesMenu',
+
   props: {
-    options: {
-      type: Array,
-      requierd: true,
-    },
+    options: { type: Array, required: true },
   },
+
   components: { VFavoritesMenuItem },
+
   data() {
     return {
       removable: false,

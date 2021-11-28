@@ -2,27 +2,24 @@
   <div class="favorites-list">
     <div class="favorites-list__header">
       Добавлено в избранном
-      <i class="material-icons favorites-list__header-icon">
-        star
-      </i>
+      <i class="material-icons favorites-list__header-icon">star</i>
     </div>
-    <div v-for="item of array"
-         :key="item"
-         class="favorites-list__item"
-         @click="$emit('select-favorite', item)">
-      {{item}}
-    </div>
+
+    <div
+      v-for="item of array"
+      :key="item"
+      class="favorites-list__item"
+      @click="$emit('select-favorite', item)"
+    > {{ item }} </div>
   </div>
 </template>
 
 <script>
 export default {
   name: 'VFavoriteList',
+
   props: {
-    array: {
-      type: Array,
-      required: true,
-    },
+    array: { type: Array, required: true },
   },
 };
 </script>
